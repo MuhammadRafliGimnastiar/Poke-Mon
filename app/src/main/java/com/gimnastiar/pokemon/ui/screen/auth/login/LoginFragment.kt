@@ -8,21 +8,32 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.gimnastiar.pokemon.R
 import com.gimnastiar.pokemon.databinding.FragmentLoginBinding
 import com.jakewharton.rxbinding2.widget.RxTextView
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private var jobLogin: Job? = null
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,6 +42,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         observeValidation()
         onLogin()
         onRegistClick()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        jobLogin?.cancel()
     }
 
     private fun onRegistClick() {
@@ -43,14 +59,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                // TODO: Pindah ke halaman register
-//                findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_registFragment)
             }
 
             override fun updateDrawState(ds: TextPaint) {
                 super.updateDrawState(ds)
-                ds.isUnderlineText = false // remove underline
-                ds.color = ContextCompat.getColor(requireContext(), R.color.blue_500)
+                ds.isUnderlineText = false
+                ds.color = ContextCompat.getColor(requireContext(), R.color.blue_color)
             }
         }
 
@@ -65,7 +80,27 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun onLogin() = with(binding) {
         btnLogin.setOnClickListener {
-            //check to room, move to core act
+            val email = etEmail.text.toString()
+            val password = etPassowrd.text.toString()
+
+            viewModel.login(email, password)
+        }
+        observeLogin()
+    }
+
+    private fun observeLogin() {
+        jobLogin?.cancel()
+        jobLogin = lifecycleScope.launchWhenStarted {
+            viewModel.user.collectLatest {
+                if (it != null) {
+                    //save data store
+                    Toast.makeText(requireContext(), "Login success", Toast.LENGTH_SHORT).show()
+                    viewModel.saveSession(it)
+                    //navigasi
+                } else {
+                    Toast.makeText(requireContext(), "Account not registered", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -89,7 +124,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 with(binding.btnLogin) {
                     isEnabled = isValid
                     setBackgroundColor(
-                        if(isValid) androidx.appcompat.R.attr.colorPrimary else ContextCompat.getColor(requireContext(), R.color.gray)
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (isValid) R.color.blue_color else R.color.grey
+                        )
                     )
                 }
             }
@@ -117,12 +155,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         tfEmail.error = if (isValid) null else {
             getString(R.string.invalid_email)
         }
+        tfEmail.isErrorEnabled = if (isValid) false else true
     }
 
     private fun showPasswordAlert(isValid: Boolean) = with(binding) {
         tfPassword.error = if (isValid) null else {
             getString(R.string.invalid_password)
         }
+        tfPassword.isErrorEnabled = if (isValid) false else true
     }
 
 }

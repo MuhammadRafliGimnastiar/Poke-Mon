@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="black">#282828</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray">#D0D5DD</color>
-    <color name="blue_500">#2196F3 </color>
+    <color name="grey">#EDEDED</color>
+    <color name="toolbar_line_color">#80EAEAEA</color>
+    <color name="colorShimmer">#BCBEC1</color>
+    <color name="colorCardProgressOne">#E76D89</color>
+    <color name="colorCardProgressTwo">#947CB0</color>
+    <color name="colorCardProgressThree">#848CCF</color>
+    <color name="colorCardProgressFour">#67809F</color>
+
+    <color name="red_color">#EB5757</color>
+    <color name="orange_color">#F27935</color>
+    <color name="yellow_color">#F2C94C</color>
+    <color name="green_color">#6FCF97</color>
+    <color name="blue_color">#1DA1F2</color>
+    <color name="pink_color">#E33D94</color>
+    <color name="purple_color">#9B59B6</color>
+
+    <color name="blue_transparent">#261DA1F2</color>
+    <color name="purple_transparent">#264D6EE3</color>
+    <color name="green_transparent">#B36FCF97</color>
 </resources>

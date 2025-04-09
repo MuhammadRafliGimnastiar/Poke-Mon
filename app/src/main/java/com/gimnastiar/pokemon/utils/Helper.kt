@@ -9,4 +9,9 @@ object Helper {
         return bytes.joinToString("") { "%02x".format(it) }
     }
 
+    fun generateDummyToken(email: String): String {
+        val raw = "$email-${System.currentTimeMillis()}"
+        return raw.hashCode().toString()
+    }
+
 }

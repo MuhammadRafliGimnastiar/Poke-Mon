@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sheet_radius_28dp">28dp</dimen>
+    <dimen name="app_margin_16dp">16dp</dimen>
+    <dimen name="app_margin_32dp">32dp</dimen>
+    <dimen name="button_height_56dp">56dp</dimen>
+    <dimen name="app_margin_8dp">8dp</dimen>
+    <dimen name="app_margin_4dp">4dp</dimen>
+</resources>

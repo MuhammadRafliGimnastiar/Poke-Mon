@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "user",
     indices = [Index(value = ["email"], unique = true)]
 )
-data class UserEntitry(
+data class UserEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,

@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -92,4 +94,7 @@ dependencies {
     //rxjava
     implementation(libs.rxjava)
     implementation(libs.rxbinding)
+
+    // PreferenceDatastore
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
 }

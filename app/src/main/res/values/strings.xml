@@ -9,4 +9,14 @@
     <string name="move_to_regist_text">Don\'t have a account yet? Register</string>
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password">Include upper/lowercase, number, and symbol (8+ chars).</string>
+    <string name="invalid_confirm_password">password is not the same</string>
+    <string name="full_name">Full Name</string>
+    <string name="regist_desc">Create your account</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="invalid_name">Name can not be empty</string>
+    <string name="sign_up">Sign Up</string>
+
+    <string name="pref_dark_follow_system" translatable="false">follow_system</string>
+    <string name="pref_key_theme" translatable="false">key_theme</string>
+    <string name="author_app">Muhammad Rafli Gimnastiar</string>
 </resources>
