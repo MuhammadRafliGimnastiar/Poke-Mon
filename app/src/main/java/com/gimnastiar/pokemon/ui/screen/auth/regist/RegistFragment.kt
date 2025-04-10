@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.gimnastiar.pokemon.R
 import com.gimnastiar.pokemon.databinding.FragmentRegistBinding
@@ -58,7 +60,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
     }
 
     private fun observeSignUp() {
-        jobSignUp = lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenStarted {
             viewModel.registResponse.observe(viewLifecycleOwner) {
                 if ( it == (-1).toLong()) {
                     Log.i("REGIST RESPONSE", "EMAIL TERDAFTAR")
@@ -66,13 +68,29 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
                     Log.i("REGIST RESPONSE", "SUCCESS")
                 }
             }
-        }
+        }.also { jobSignUp = it }
     }
+
+//    private fun backPressedhandler() {
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                findNavController().navigate(
+//                    R.id.action_registFragment_to_loginFragment,
+//                    null,
+//                    NavOptions.Builder()
+//                        .setPopUpTo(R.id.registFragment, true)
+//                        .build()
+//                )
+//            }
+//        })
+//    }
 
     private fun onBackPress() = with(binding) {
         ivBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+
     }
 
     @SuppressLint("CheckResult")
@@ -127,7 +145,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
     }
 
     private fun validatePassword(): Observable<Boolean> {
-        val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}$".toRegex()
+        val passwordPattern = getString(R.string.pass_pattern).toRegex()
 
         return RxTextView.textChanges(binding.etPassowrd)
             .skipInitialValue()
@@ -157,28 +175,28 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
         tfFullName.error = if (isValid) null else {
             getString(R.string.invalid_name)
         }
-        tfFullName.isErrorEnabled = if (isValid) true else false
+        tfFullName.isErrorEnabled = if (isValid) false else true
     }
 
     private fun showEmailAlert(isValid: Boolean) = with(binding) {
         tfEmail.error = if (isValid) null else {
             getString(R.string.invalid_email)
         }
-        tfEmail.isErrorEnabled = if (isValid) true else false
+        tfEmail.isErrorEnabled = if (isValid) false else true
     }
 
     private fun showPasswordAlert(isValid: Boolean) = with(binding) {
         tfPassword.error = if (isValid) null else {
             getString(R.string.invalid_password)
         }
-        tfPassword.isErrorEnabled = if (isValid) true else false
+        tfPassword.isErrorEnabled = if (isValid) false else true
     }
 
     private fun showConfirmPasswordAlert(isValid: Boolean) = with(binding) {
         tfConfirmPass.error = if (isValid) null else {
             getString(R.string.invalid_confirm_password)
         }
-        tfConfirmPass.isErrorEnabled = if (isValid) true else false
+        tfConfirmPass.isErrorEnabled = if (isValid) false else true
     }
 
 }

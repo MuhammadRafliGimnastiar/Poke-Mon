@@ -14,19 +14,19 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthRepository @Inject constructor(
-    private val auth: AuthDataSource,
-    private val sessionDatastore: SessionDatastore
+    private val auth: AuthDataSource
 ) : IAuthRepository {
     override suspend fun registUser(user: User, password: String): Long =
         auth.registUser(DataMapper.mapDomainToEntityUser(user, password))
 
-    override fun loginUser(email: String, password: String): Flow<User?> {
-        return auth.loginUser(email, password)
-            .map { entity ->
-                entity?.let {
-                    DataMapper.mapEntityToDomainUser(it)
-                }
-            }
+    override suspend fun findUserByEmail(email: String, password: String): LoginResult {
+        val user = auth.findUserByEmail(email)
+
+        return when {
+            user == null -> LoginResult.UserNotFound
+            user.password != password -> LoginResult.WrongPassword
+            else -> LoginResult.Success(DataMapper.mapEntityToDomainUser(user))
+        }
     }
 
 }

@@ -13,5 +13,8 @@ interface UserDao {
     suspend fun registUser(user: UserEntity): Long
 
     @Query("SELECT * FROM user WHERE email = :email AND password = :password LIMIT 1")
-    fun loginUser(email: String, password: String): Flow<UserEntity?>
+    suspend fun loginUser(email: String, password: String): UserEntity?
+
+    @Query("SELECT * FROM user WHERE email = :email LIMIT 1")
+    suspend fun findUserByEmail(email: String): UserEntity?
 }

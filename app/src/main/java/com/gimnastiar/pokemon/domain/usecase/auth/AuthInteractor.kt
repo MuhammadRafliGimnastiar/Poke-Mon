@@ -1,5 +1,6 @@
 package com.gimnastiar.pokemon.domain.usecase.auth
 
+import com.gimnastiar.pokemon.data.LoginResult
 import com.gimnastiar.pokemon.data.source.local.auth.entity.UserEntity
 import com.gimnastiar.pokemon.domain.model.User
 import com.gimnastiar.pokemon.domain.repository.IAuthRepository
@@ -13,6 +14,6 @@ class AuthInteractor @Inject constructor(
     override suspend fun registUser(user: User, password: String): Long
     = repository.registUser(user, Helper.hashPassword(password))
 
-    override fun loginUser(email: String, password: String): Flow<User?>
-    = repository.loginUser(email, Helper.hashPassword(password))
+    override suspend fun findUserByEmail(email: String, password: String): LoginResult
+    = repository.findUserByEmail(email, Helper.hashPassword(password))
 }

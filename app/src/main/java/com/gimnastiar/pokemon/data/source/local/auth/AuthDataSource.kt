@@ -12,5 +12,7 @@ class AuthDataSource @Inject constructor(
 ) {
     suspend fun registUser(user: UserEntity): Long = dao.registUser(user)
 
-    fun loginUser(email: String, password: String): Flow<UserEntity?> = dao.loginUser(email, password)
+    suspend fun loginUser(email: String, password: String): UserEntity?= dao.loginUser(email, password)
+
+    suspend fun findUserByEmail(email: String): UserEntity?= dao.findUserByEmail(email)
 }

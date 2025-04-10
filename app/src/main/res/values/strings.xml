@@ -19,4 +19,13 @@
     <string name="pref_dark_follow_system" translatable="false">follow_system</string>
     <string name="pref_key_theme" translatable="false">key_theme</string>
     <string name="author_app">Muhammad Rafli Gimnastiar</string>
+    <string name="account_not_found">Account not found</string>
+    <string name="your_password_is_wrong">Your password is wrong</string>
+    <string name="login_success">Login success</string>
+    <string name="pass_pattern"><![CDATA[^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$]]></string>
+    <string name="search_pokemon">Search your pokemon</string>
+    <string name="pekemon_list">Pokemon List</string>
+    <string name="Logout">Log Out</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_home">Home</string>
 </resources>

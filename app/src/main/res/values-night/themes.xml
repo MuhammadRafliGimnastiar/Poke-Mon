@@ -1,21 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PokeMon" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/purple_500</item>
-        <!-- Secondary brand color. -->
+    <style name="Theme.PokeMon" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary Colors -->
+        <item name="colorPrimary">@color/blue_color</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryContainer">@color/blue_color</item>
+
+        <!-- Secondary Colors -->
         <item name="colorSecondary">@color/blue_color</item>
-        <item name="colorSecondaryVariant">@color/black</item>
-        <item name="colorOnSecondary">@color/purple_200</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorSecondaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryContainer">@color/blue_color</item>
+
+        <!-- Background & Surface -->
         <item name="android:windowBackground">@color/black</item>
-<!--        <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>-->
-        <item name="colorOnBackground">@color/black</item>
+        <item name="colorSurface">@color/black</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="backgroundColor">@color/black</item>
+        <item name="colorOnBackground">@color/white</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/black</item>
     </style>
 </resources>

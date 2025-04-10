@@ -1,6 +1,7 @@
 package com.gimnastiar.pokemon.ui.screen.auth.login
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -18,9 +19,12 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.gimnastiar.pokemon.R
+import com.gimnastiar.pokemon.data.LoginResult
 import com.gimnastiar.pokemon.databinding.FragmentLoginBinding
+import com.gimnastiar.pokemon.ui.screen.core.CoreActivity
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
@@ -42,11 +46,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         observeValidation()
         onLogin()
         onRegistClick()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        jobLogin?.cancel()
     }
 
     private fun onRegistClick() {
@@ -89,20 +88,37 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun observeLogin() {
-        jobLogin?.cancel()
-        jobLogin = lifecycleScope.launchWhenStarted {
-            viewModel.user.collectLatest {
-                if (it != null) {
-                    //save data store
-                    Toast.makeText(requireContext(), "Login success", Toast.LENGTH_SHORT).show()
-                    viewModel.saveSession(it)
-                    //navigasi
-                } else {
-                    Toast.makeText(requireContext(), "Account not registered", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launchWhenStarted {
+            viewModel.loginResult.collectLatest {
+                when (it) {
+                    is LoginResult.UserNotFound -> showToast(getString(R.string.account_not_found))
+                    is LoginResult.WrongPassword -> showToast(getString(R.string.your_password_is_wrong))
+                    is LoginResult.Success -> {
+                        viewModel.saveSession(it.user)
+                        showToast(getString(R.string.login_success))
+
+                        // navigation
+                        val intent = Intent(requireContext(), CoreActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+
+                    }
                 }
             }
         }
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    //    private fun observeMessage() {
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.messageEvent.collectLatest { message ->
+//
+//            }
+//        }
+//    }
 
     @SuppressLint("CheckResult")
     private fun observeValidation() {
@@ -134,12 +150,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun validatePassword(): Observable<Boolean> {
-        val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}$".toRegex()
-
         return RxTextView.textChanges(binding.etPassowrd)
             .skipInitialValue()
             .map { password ->
-                passwordPattern.matches(password.toString())
+                password.isNotEmpty()
             }
     }
 
