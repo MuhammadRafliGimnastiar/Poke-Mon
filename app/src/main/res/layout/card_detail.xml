@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    app:cardCornerRadius="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgPokemon"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            tools:src="@tools:sample/backgrounds/scenic"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/customImageView8dp"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            app:layout_constraintTop_toBottomOf="@id/imgPokemon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Muhammad Rafli Gimnastiar"
+            android:maxLines="1"
+            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="12dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/layoutWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/layoutHeight"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_weight"/>
+
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="120 kg"
+                android:layout_marginStart="4dp"
+                android:maxLines="1"
+                style="@style/TextAppearance.Material3.BodyMedium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/layoutWeight"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_height"/>
+
+            <TextView
+                android:id="@+id/tvHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="120 kg"
+                android:layout_marginStart="4dp"
+                android:maxLines="1"
+                style="@style/TextAppearance.Material3.BodyMedium"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvAbilities"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/hero_abilities"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/layoutHeight"
+            android:layout_marginTop="12dp"
+            style="@style/TextAppearance.Material3.BodyMedium"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAbilities"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvAbilities"
+            app:layout_constraintEnd_toEndOf="@id/tvAbilities"
+            app:layout_constraintTop_toBottomOf="@id/tvAbilities"
+            android:layout_marginTop="6dp"
+            tools:itemCount="2"
+            android:textAlignment="center"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvEmail"-->
+<!--            android:layout_width="0dp"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tvName"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            tools:text="gimnastiarrafli@gmail.com"-->
+<!--            android:maxLines="1"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:textAlignment="center"-->
+<!--            style="@style/TextAppearance.AppCompat.Body1"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnLogout"-->
+<!--            style="@style/Widget.Material3.Button.ElevatedButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="32dp"-->
+<!--            android:text="@string/Logout"-->
+<!--            android:backgroundTint="@color/red_color"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tvEmail"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

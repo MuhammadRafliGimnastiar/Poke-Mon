@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.gimnastiar.pokemon.ui.screen.core.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.gimnastiar.pokemon.ui.screen.core.profile.ProfileFragment"
@@ -19,5 +23,14 @@
         android:id="@+id/detailFragment"
         android:name="com.gimnastiar.pokemon.ui.screen.core.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="pokemon"
+            app:argType="com.gimnastiar.pokemon.domain.model.Pokemon"
+            app:nullable="true"/>
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

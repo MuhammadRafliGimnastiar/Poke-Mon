@@ -19,6 +19,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_URL", "\"https://pokeapi.co/api/v2/\"")
     }
 
     buildTypes {
@@ -38,6 +40,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures{
+        buildConfig = true
         viewBinding = true
     }
 }
@@ -97,4 +100,7 @@ dependencies {
 
     // PreferenceDatastore
     implementation("androidx.datastore:datastore-preferences:1.1.4")
+
+    //paging
+    implementation(libs.androidx.paging.runtime.ktx)
 }

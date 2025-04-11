@@ -18,21 +18,25 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class CoreActivity : AppCompatActivity(R.layout.activity_core) {
+class CoreActivity : AppCompatActivity() {
 
-    private var _binding: ActivityCoreBinding? = null
-    private val binding get() = _binding!!
+//    private var _binding: ActivityCoreBinding? = null
+//    private val binding get() = _binding!!
+    private lateinit var binding: ActivityCoreBinding
 
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityCoreBinding.inflate(layoutInflater)
+        binding = ActivityCoreBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding.bottomNavigation.itemIconTintList = null
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostContainer) as NavHostFragment
         navController = navHostFragment.navController
+
+//        binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

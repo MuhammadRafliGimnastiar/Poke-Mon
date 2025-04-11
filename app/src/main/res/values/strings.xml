@@ -28,4 +28,8 @@
     <string name="Logout">Log Out</string>
     <string name="title_profile">Profile</string>
     <string name="title_home">Home</string>
+
+    <string name="retry">Coba lagi</string>
+    <string name="scroll_to_top">Scroll to top</string>
+    <string name="hero_abilities">Hero abilities :</string>
 </resources>
