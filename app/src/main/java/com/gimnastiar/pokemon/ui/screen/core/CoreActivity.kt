@@ -1,11 +1,7 @@
 package com.gimnastiar.pokemon.ui.screen.core
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -20,8 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CoreActivity : AppCompatActivity() {
 
-//    private var _binding: ActivityCoreBinding? = null
-//    private val binding get() = _binding!!
     private lateinit var binding: ActivityCoreBinding
 
     private lateinit var navController: NavController
@@ -35,8 +29,6 @@ class CoreActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostContainer) as NavHostFragment
         navController = navHostFragment.navController
-
-//        binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

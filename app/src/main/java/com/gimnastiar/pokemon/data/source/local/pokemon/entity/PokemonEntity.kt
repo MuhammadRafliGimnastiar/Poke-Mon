@@ -1,9 +1,11 @@
 package com.gimnastiar.pokemon.data.source.local.pokemon.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "pokemon")
+@Entity(tableName = "pokemon",
+    indices = [Index(value = ["name"], unique = true)])
 data class PokemonEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,

@@ -1,6 +1,5 @@
 package com.gimnastiar.pokemon.data.source.remote.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.gimnastiar.pokemon.data.source.remote.network.ApiService
@@ -19,9 +18,6 @@ class PokemonPagingSource(
 
             val prevOffset = if (offset == 0) null else offset - limit
             val nextOffset = if (response.next != null) offset + limit else null
-
-            Log.d("PagingSource", "offset: $offset, limit: $limit, resultCount: ${response.results?.size}")
-
 
             LoadResult.Page(
                 data = response.results.orEmpty().filterNotNull(),

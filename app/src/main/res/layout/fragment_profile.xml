@@ -10,7 +10,7 @@
         android:id="@+id/cardProfile"
         layout="@layout/card_profile"
         android:layout_width="300dp"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

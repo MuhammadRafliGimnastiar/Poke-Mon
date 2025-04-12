@@ -25,8 +25,6 @@ class PokemonSearchPagingSource(
         val prevOffset = getPrevKey(offset, limit)
         val nextOffset = getNextKey(offset, limit, response.next)
 
-        Log.d("PagingSourceSearch", "offset: $offset, limit: $limit, query: '$query', resultCount: ${results.size}")
-
         LoadResult.Page(
             data = results,
             prevKey = prevOffset,

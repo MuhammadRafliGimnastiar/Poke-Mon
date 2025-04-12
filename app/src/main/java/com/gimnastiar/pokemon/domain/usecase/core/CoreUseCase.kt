@@ -2,10 +2,6 @@ package com.gimnastiar.pokemon.domain.usecase.core
 
 import androidx.paging.PagingData
 import com.gimnastiar.pokemon.data.Resource
-import com.gimnastiar.pokemon.data.source.local.pokemon.entity.PokemonEntity
-import com.gimnastiar.pokemon.data.source.remote.network.ApiService
-import com.gimnastiar.pokemon.data.source.remote.response.PokemonDetail
-import com.gimnastiar.pokemon.data.source.remote.response.PokemonResult
 import com.gimnastiar.pokemon.domain.model.Pokemon
 import com.gimnastiar.pokemon.domain.model.PokemonList
 import kotlinx.coroutines.flow.Flow

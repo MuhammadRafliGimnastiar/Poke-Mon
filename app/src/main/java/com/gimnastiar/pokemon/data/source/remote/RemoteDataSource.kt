@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.random.Random
 
 @Singleton
 class RemoteDataSource @Inject constructor(
@@ -45,7 +44,6 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun getDetailPokemon(url: String): Flow<ApiResponse<PokemonDetail>> {
-//        return apiService.getPokemonDetail(url)
         return flow {
             try {
                 val response = apiService.getPokemonDetail(url)

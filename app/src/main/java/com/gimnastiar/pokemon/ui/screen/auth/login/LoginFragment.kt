@@ -11,18 +11,14 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.gimnastiar.pokemon.R
 import com.gimnastiar.pokemon.data.LoginResult
@@ -31,7 +27,6 @@ import com.gimnastiar.pokemon.ui.screen.core.CoreActivity
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
@@ -65,7 +60,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 findNavController().navigate(R.id.action_loginFragment_to_registFragment)
-                Log.i("NAV HOME", "TO REGIST")
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -94,6 +88,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun observeLogin() {
         lifecycleScope.launchWhenStarted {
             viewModel.loginResult.collectLatest {
@@ -104,7 +99,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         viewModel.saveSession(it.user)
                         showToast(getString(R.string.login_success))
 
-                        // navigation
+                        // navigate to core
                         val intent = Intent(requireContext(), CoreActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
@@ -138,12 +133,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             .subscribe { isValid ->
                 with(binding.btnLogin) {
                     isEnabled = isValid
-                    setBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            if (isValid) R.color.blue_color else R.color.grey
-                        )
-                    )
                 }
             }
     }
@@ -168,14 +157,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         tfEmail.error = if (isValid) null else {
             getString(R.string.invalid_email)
         }
-        tfEmail.isErrorEnabled = if (isValid) false else true
+        tfEmail.isErrorEnabled = !isValid
     }
 
     private fun showPasswordAlert(isValid: Boolean) = with(binding) {
         tfPassword.error = if (isValid) null else {
-            getString(R.string.invalid_password)
+            getString(R.string.input_password)
         }
-        tfPassword.isErrorEnabled = if (isValid) false else true
+        tfPassword.isErrorEnabled = !isValid
     }
 
     private fun backAction() {
@@ -185,7 +174,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     requireActivity().finish()
                 } else {
                     doubleBackPressed = true
-                    Toast.makeText(requireContext(), "press again to exit", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT).show()
 
                     Handler(Looper.getMainLooper()).postDelayed({
                         doubleBackPressed = false

@@ -8,9 +8,6 @@ import com.gimnastiar.pokemon.data.Resource
 import com.gimnastiar.pokemon.domain.model.Pokemon
 import com.gimnastiar.pokemon.domain.usecase.core.CoreUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import okhttp3.internal.userAgent
 import javax.inject.Inject
 
 @HiltViewModel

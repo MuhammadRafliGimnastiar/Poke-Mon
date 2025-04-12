@@ -1,6 +1,5 @@
 package com.gimnastiar.pokemon.data.source.local.pokemon.room
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

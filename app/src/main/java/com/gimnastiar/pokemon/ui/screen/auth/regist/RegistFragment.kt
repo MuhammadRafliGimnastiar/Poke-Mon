@@ -3,18 +3,11 @@ package com.gimnastiar.pokemon.ui.screen.auth.regist
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.gimnastiar.pokemon.R
 import com.gimnastiar.pokemon.databinding.FragmentRegistBinding
@@ -23,15 +16,12 @@ import com.gimnastiar.pokemon.ui.screen.core.CoreActivity
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class RegistFragment : Fragment(R.layout.fragment_regist) {
 
     private var _binding : FragmentRegistBinding? = null
     private val binding get() = _binding!!
-    private var jobSignUp: Job? = null
 
     private val viewModel: RegistViewModel by viewModels()
 
@@ -39,7 +29,6 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentRegistBinding.bind(view)
 
-        Log.i("NAV HOME", "IN REGIST")
         observeValidation()
         onBackPress()
         onSignUp()
@@ -61,7 +50,6 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
                 user = user,
                 password = password
             )
-            Log.i("RETURN REGIST DATA", user.email)
             observeSignUp(user)
         }
     }
@@ -72,7 +60,6 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
                 showToast(getString(R.string.your_email_has_registered))
             } else {
                 viewModel.saveSession(user)
-                Log.i("NAV HOME", "TO REGIST ${user.name}")
 
                 // navigation
                 val intent = Intent(requireContext(), CoreActivity::class.java)
@@ -86,26 +73,10 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-//    private fun backPressedhandler() {
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                findNavController().navigate(
-//                    R.id.action_registFragment_to_loginFragment,
-//                    null,
-//                    NavOptions.Builder()
-//                        .setPopUpTo(R.id.registFragment, true)
-//                        .build()
-//                )
-//            }
-//        })
-//    }
-
     private fun onBackPress() = with(binding) {
-        ivBack.setOnClickListener {
+        topAppBar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
-
     }
 
     @SuppressLint("CheckResult")
@@ -141,12 +112,6 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
             .subscribe { isValid ->
                 with(binding.btnRegist) {
                     isEnabled = isValid
-                    setBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            if (isValid) R.color.blue_color else R.color.grey
-                        )
-                    )
                 }
             }
     }
@@ -190,28 +155,28 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
         tfFullName.error = if (isValid) null else {
             getString(R.string.invalid_name)
         }
-        tfFullName.isErrorEnabled = if (isValid) false else true
+        tfFullName.isErrorEnabled = !isValid
     }
 
     private fun showEmailAlert(isValid: Boolean) = with(binding) {
         tfEmail.error = if (isValid) null else {
             getString(R.string.invalid_email)
         }
-        tfEmail.isErrorEnabled = if (isValid) false else true
+        tfEmail.isErrorEnabled = !isValid
     }
 
     private fun showPasswordAlert(isValid: Boolean) = with(binding) {
         tfPassword.error = if (isValid) null else {
             getString(R.string.invalid_password)
         }
-        tfPassword.isErrorEnabled = if (isValid) false else true
+        tfPassword.isErrorEnabled = !isValid
     }
 
     private fun showConfirmPasswordAlert(isValid: Boolean) = with(binding) {
         tfConfirmPass.error = if (isValid) null else {
             getString(R.string.invalid_confirm_password)
         }
-        tfConfirmPass.isErrorEnabled = if (isValid) false else true
+        tfConfirmPass.isErrorEnabled = !isValid
     }
 
 }

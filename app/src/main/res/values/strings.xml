@@ -2,12 +2,12 @@
     <string name="app_name">Poke mon</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="login_description">Login into your account</string>
-    <string name="email">gimnas@gmail.com</string>
+    <string name="login_description">Login to your account</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="move_to_regist_text">Don\'t have a account yet? Register</string>
-    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_email">Invalid email address</string>
     <string name="invalid_password">Include upper/lowercase, number, and symbol (8+ chars).</string>
     <string name="invalid_confirm_password">password is not the same</string>
     <string name="full_name">Full Name</string>
@@ -39,4 +39,7 @@
     <string name="your_email_has_registered">Your email is already registered</string>
     <string name="no_data_found">No Data Found..</string>
     <string name="please_open_some_data">Please open some data when you are online first</string>
+    <string name="press_again_to_exit">press again to exit</string>
+    <string name="input_password">Please input your password</string>
+    <string name="you_has_been_logged_out">You has been logged out</string>
 </resources>

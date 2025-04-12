@@ -5,14 +5,13 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,12 +24,10 @@ import com.gimnastiar.pokemon.domain.model.PokemonList
 import com.gimnastiar.pokemon.ui.adapter.LoadingStateAdapter
 import com.gimnastiar.pokemon.ui.adapter.LocalPokemonAdapter
 import com.gimnastiar.pokemon.ui.adapter.PokemonListAdapter
-import com.gimnastiar.pokemon.utils.Helper
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -50,7 +47,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,6 +58,7 @@ class HomeFragment : Fragment() {
         setupScrollToTopButton()
         backAction()
         observeConnection()
+        bottomNavShowHandler()
         viewModel.checkConnectingData(requireContext(), viewLifecycleOwner)
     }
 
@@ -70,9 +68,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeConnection() {
-//        viewModel.checkConnectingData(requireContext(), viewLifecycleOwner)
         viewModel.isConnected.observe(viewLifecycleOwner) {
-
             if(it) {
                 showLoading(false)
                 observePokemon()
@@ -83,6 +79,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun observeLocalPokemon() {
         lifecycleScope.launchWhenStarted {
             viewModel.getLocalPokemon.collectLatest {
@@ -141,12 +138,7 @@ class HomeFragment : Fragment() {
                         ) filteredList.add(item)
                     }
 
-                if (filteredList.isEmpty()) {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.no_data_found), Toast.LENGTH_SHORT).show()
-                } else {
-                    adapterSearch.filterList(filteredList)
-                }
+                if (filteredList.isNotEmpty()) adapterSearch.filterList(filteredList)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -154,6 +146,7 @@ class HomeFragment : Fragment() {
         })
     }
 
+    @Suppress("DEPRECATION")
     private fun observePokemon() = with(binding) {
         val pokemonAdapter = PokemonListAdapter()
         val pokemonAdapterSearch = PokemonListAdapter()
@@ -204,7 +197,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupScrollToTopButton() = with(binding) {
-
         rvPokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(rv, dx, dy)
@@ -237,7 +229,8 @@ class HomeFragment : Fragment() {
                         requireActivity().finish()
                     } else {
                         doubleBackPressed = true
-                        Toast.makeText(requireContext(), "press again to exit", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT).show()
 
                         Handler(Looper.getMainLooper()).postDelayed({
                             doubleBackPressed = false
@@ -246,6 +239,36 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun bottomNavShowHandler() = with(binding) {
+        searchView.addTransitionListener { _, _, newState ->
+            when (newState) {
+                SearchView.TransitionState.SHOWN -> hideBottomNav(true)
+                SearchView.TransitionState.HIDDEN -> hideBottomNav(false)
+                else -> {}
+            }
+
+        }
+    }
+
+    private fun hideBottomNav(isHide: Boolean) {
+        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        if (isHide) {
+            bottomNav.animate()
+                .translationY(bottomNav.height.toFloat())
+                .alpha(0f)
+                .setDuration(200)
+                .withEndAction { bottomNav.visibility = View.GONE }
+                .start()
+        } else {
+            bottomNav.visibility = View.VISIBLE
+            bottomNav.animate()
+                .translationY(0f)
+                .alpha(1f)
+                .setDuration(200)
+                .start()
+        }
     }
 
 }

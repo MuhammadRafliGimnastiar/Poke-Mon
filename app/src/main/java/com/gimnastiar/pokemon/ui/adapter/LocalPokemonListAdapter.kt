@@ -1,5 +1,6 @@
 package com.gimnastiar.pokemon.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,6 +32,7 @@ class LocalPokemonAdapter :
         return ListViewHolder(binding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun filterList(filterlist: ArrayList<Pokemon>) {
         this.submitList(filterlist)
         notifyDataSetChanged()

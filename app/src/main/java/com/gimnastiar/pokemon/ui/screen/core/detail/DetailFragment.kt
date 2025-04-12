@@ -2,13 +2,12 @@ package com.gimnastiar.pokemon.ui.screen.core.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.gimnastiar.pokemon.R
@@ -36,6 +35,7 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,7 +43,6 @@ class DetailFragment : Fragment() {
         val url: String? = arguments?.getString("url")
 
         if (url != null) {
-            //hit ViewModel
             setupDataUrl(url)
         } else if (pokemon != null) {
             setupDataPokemon(pokemon)
@@ -78,8 +77,14 @@ class DetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setupDataPokemon(pokemon: Pokemon) = with(binding.includedDetail) {
         tvName.text = pokemon.name
-        tvHeight.text = pokemon.height.toString() + " cm"
-        tvWeight.text = pokemon.weight.toString() + " kg"
+        tvHeight.text = buildString {
+            append(pokemon.height.toString())
+            append(" m")
+        }
+        tvWeight.text = buildString {
+            append(pokemon.weight.toString())
+            append(" kg")
+        }
         if (Helper.isConnected(requireContext())) {
             Glide.with(requireContext())
                 .load(pokemon.imageUrl)

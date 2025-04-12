@@ -1,13 +1,11 @@
 package com.gimnastiar.pokemon.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gimnastiar.pokemon.databinding.ItemPokemonBinding
-import com.gimnastiar.pokemon.domain.model.Pokemon
 import com.gimnastiar.pokemon.domain.model.PokemonList
 
 class PokemonListAdapter :
