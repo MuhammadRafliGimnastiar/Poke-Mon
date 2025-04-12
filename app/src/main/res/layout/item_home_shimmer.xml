@@ -7,7 +7,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="64dp"
         android:background="@color/grey"
         app:shapeAppearanceOverlay="@style/customImageView8dp"
         android:layout_margin="4dp"
@@ -15,26 +15,67 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/grey"
+        app:shapeAppearanceOverlay="@style/customImageView8dp"
+        android:layout_margin="4dp"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
         android:background="@color/grey"
         app:shapeAppearanceOverlay="@style/customImageView8dp"
         android:layout_margin="4dp"
         />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/grey"
-        app:shapeAppearanceOverlay="@style/customImageView8dp"
-        android:layout_margin="4dp"
-        />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/grey"
-        app:shapeAppearanceOverlay="@style/customImageView8dp"
-        android:layout_margin="4dp"
-        />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

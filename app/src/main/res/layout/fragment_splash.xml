@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.screen.splash.SplashFragment">
+    tools:context=".ui.screen.auth.splash.SplashFragment">
 
     <ImageView
         android:id="@+id/icLogo"
         android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_launcher_background"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_ball_poke"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -15,15 +15,13 @@
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorPrimaryVariant"
             app:layout_scrollFlags="noScroll"
             app:toolbarId="@+id/toolbar">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorSecondaryVariant">
+                android:layout_height="?attr/actionBarSize">
 
                 <ImageView
                     android:id="@+id/ivBack"

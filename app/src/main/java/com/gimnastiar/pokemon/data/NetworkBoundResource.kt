@@ -24,9 +24,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
     protected abstract suspend fun createCall(): Flow<ApiResponse<RequestType>>
 
-    protected abstract suspend fun saveCallResult(data: RequestType)
-
-    protected abstract fun loadFromNetwork(data: RequestType): Flow<ResultType>
+    protected abstract suspend fun loadFromNetwork(data: RequestType): Flow<ResultType>
 
     protected open fun onFetchFailed() {}
 

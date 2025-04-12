@@ -1,11 +1,18 @@
 package com.gimnastiar.pokemon.ui.screen.core.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,10 +23,15 @@ import com.gimnastiar.pokemon.databinding.FragmentHomeBinding
 import com.gimnastiar.pokemon.domain.model.Pokemon
 import com.gimnastiar.pokemon.domain.model.PokemonList
 import com.gimnastiar.pokemon.ui.adapter.LoadingStateAdapter
+import com.gimnastiar.pokemon.ui.adapter.LocalPokemonAdapter
 import com.gimnastiar.pokemon.ui.adapter.PokemonListAdapter
-import com.gimnastiar.pokemon.ui.adapter.PokemonResultListAdapter
+import com.gimnastiar.pokemon.utils.Helper
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -30,6 +42,9 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
 
     private var isScrollingDown = false
+    private var doubleBackPressed = false
+
+    private lateinit var pokemonLocalList: ArrayList<Pokemon>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,34 +58,149 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observePokemon()
         setupScrollToTopButton()
+        backAction()
+        observeConnection()
+        viewModel.checkConnectingData(requireContext(), viewLifecycleOwner)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkConnectingData(requireContext(), viewLifecycleOwner)
+    }
+
+    private fun observeConnection() {
+//        viewModel.checkConnectingData(requireContext(), viewLifecycleOwner)
+        viewModel.isConnected.observe(viewLifecycleOwner) {
+
+            if(it) {
+                showLoading(false)
+                observePokemon()
+            } else {
+                showLoading(false)
+                observeLocalPokemon()
+            }
+        }
+    }
+
+    private fun observeLocalPokemon() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.getLocalPokemon.collectLatest {
+                if (it.isNotEmpty()) {
+                    setupListLocal(it)
+                } else {
+                    showLoading(true)
+                    Toast.makeText(requireContext(),
+                        getString(R.string.please_open_some_data), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun showLoading(b: Boolean) = with(binding) {
+        shimmer.visibility = if (b) View.VISIBLE else View.GONE
+    }
+
+    private fun setupListLocal(data: List<Pokemon>) = with(binding) {
+        val adapterLocal = LocalPokemonAdapter()
+        adapterLocal.setOnItemClickCallback(object: LocalPokemonAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: Pokemon) {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(url = null, pokemon = data)
+                findNavController().navigate(action)
+            }
+        })
+        adapterLocal.submitList(data)
+
+        rvPokemon.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rvPokemon.adapter = adapterLocal
+
+        val adapterSearch = LocalPokemonAdapter()
+        adapterSearch.setOnItemClickCallback(object: LocalPokemonAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: Pokemon) {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(url = null, pokemon = data)
+                findNavController().navigate(action)
+            }
+        })
+
+        // SETUP SEARCH FOR LOCAL DATA
+        pokemonLocalList = data as ArrayList
+        rvSearch.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rvSearch.adapter = adapterSearch
+
+        searchView.editText.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val text = s?.toString()
+
+                val filteredList: ArrayList<Pokemon> = ArrayList()
+                if (text != null)
+                    for (item in pokemonLocalList) {
+                        if (item.name.lowercase(Locale.getDefault())
+                                .contains(text.lowercase(Locale.getDefault()))
+                        ) filteredList.add(item)
+                    }
+
+                if (filteredList.isEmpty()) {
+                    Toast.makeText(requireContext(),
+                        getString(R.string.no_data_found), Toast.LENGTH_SHORT).show()
+                } else {
+                    adapterSearch.filterList(filteredList)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+
+        })
     }
 
     private fun observePokemon() = with(binding) {
         val pokemonAdapter = PokemonListAdapter()
+        val pokemonAdapterSearch = PokemonListAdapter()
         pokemonAdapter.setOnItemClickCallback(object: PokemonListAdapter.OnItemClickCallback{
             override fun onItemClicked(data: PokemonList) {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(url = data.url, pokemon = null)
                 findNavController().navigate(action)
-                Log.i("HOME FRAGMENT", "Action to DETAIL FRAGMENT")
-
             }
-
+        })
+        pokemonAdapterSearch.setOnItemClickCallback(object: PokemonListAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: PokemonList) {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(url = data.url, pokemon = null)
+                findNavController().navigate(action)
+            }
         })
 
+        //home rv
         rvPokemon.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         rvPokemon.adapter = pokemonAdapter.withLoadStateFooter(
             footer = LoadingStateAdapter{
                 pokemonAdapter.retry()
             }
         )
-
         lifecycleScope.launchWhenStarted {
             viewModel.getPokemon.collectLatest {
                 pokemonAdapter.submitData(it)
             }
         }
+
+        //search rv
+        binding.searchView.editText.doOnTextChanged { text, _, _, _ ->
+            viewModel.setSearchQuery(text.toString())
+        }
+        rvSearch.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rvSearch.adapter = pokemonAdapterSearch.withLoadStateFooter(
+            footer = LoadingStateAdapter{
+                pokemonAdapter.retry()
+            }
+        )
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.getPokemonList.collectLatest {
+                pokemonAdapterSearch.submitData(it)
+            }
+        }
+
+
     }
 
     private fun setupScrollToTopButton() = with(binding) {
@@ -94,6 +224,28 @@ class HomeFragment : Fragment() {
         btnScrollToTop.setOnClickListener {
             rvPokemon.smoothScrollToPosition(0)
         }
+    }
+
+    private fun backAction() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                with(binding) {
+                    if (searchView.isShowing) {
+                        searchView.hide()
+
+                    } else if (doubleBackPressed) {
+                        requireActivity().finish()
+                    } else {
+                        doubleBackPressed = true
+                        Toast.makeText(requireContext(), "press again to exit", Toast.LENGTH_SHORT).show()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            doubleBackPressed = false
+                        }, 2000)
+                    }
+                }
+            }
+        })
     }
 
 }

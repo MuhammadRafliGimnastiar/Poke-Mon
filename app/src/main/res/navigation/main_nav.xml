@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.gimnastiar.pokemon.ui.screen.splash.SplashFragment"
+        android:name="com.gimnastiar.pokemon.ui.screen.auth.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action

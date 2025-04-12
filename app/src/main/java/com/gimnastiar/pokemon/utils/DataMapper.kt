@@ -56,4 +56,21 @@ object DataMapper {
             weight = data.weight ?: 0,
         )
     }
+
+    fun mapEntityToDomainPokemon(data: Flow<List<PokemonEntity>>): Flow<List<Pokemon>> {
+        return data.map { entityList ->
+            entityList.map { it.toDomain() }
+        }
+    }
+
+    fun PokemonEntity.toDomain(): Pokemon {
+        return Pokemon(
+            name = name,
+            imageUrl = imageUrl,
+            abilities = abilities,
+            weight = weight,
+            height = height
+        )
+    }
+
 }

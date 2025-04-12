@@ -1,5 +1,6 @@
 package com.gimnastiar.pokemon.data
 
+import android.util.Log
 import com.gimnastiar.pokemon.data.preferences.SessionDatastore
 import com.gimnastiar.pokemon.data.source.local.auth.AuthDataSource
 import com.gimnastiar.pokemon.domain.model.User
@@ -16,8 +17,12 @@ import javax.inject.Singleton
 class AuthRepository @Inject constructor(
     private val auth: AuthDataSource
 ) : IAuthRepository {
-    override suspend fun registUser(user: User, password: String): Long =
-        auth.registUser(DataMapper.mapDomainToEntityUser(user, password))
+    override suspend fun registUser(user: User, password: String): Long {
+        val response = auth.registUser(DataMapper.mapDomainToEntityUser(user, password))
+        Log.i("RETURN REGIST", response.toString())
+        return response
+    }
+
 
     override suspend fun findUserByEmail(email: String, password: String): LoginResult {
         val user = auth.findUserByEmail(email)

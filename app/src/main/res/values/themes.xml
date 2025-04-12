@@ -1,25 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.PokeMon" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.PokeMon" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue_color</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/purple_500</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/blue_color</item>
-        <item name="colorSecondaryVariant">@color/white</item>
-        <item name="colorOnSecondary">@color/purple_200</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/white</item>
-<!--        <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>-->
-        <item name="colorOnBackground">@color/black</item>
+<!--        <item name="colorPrimary">@color/blue_color</item>-->
+<!--        <item name="colorPrimaryVariant">@color/black</item>-->
+<!--        <item name="colorOnPrimary">@color/purple_500</item>-->
+<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
+<!--        <item name="colorSecondary">@color/blue_color</item>-->
+<!--        <item name="colorSecondaryVariant">@color/white</item>-->
+<!--        <item name="colorOnSecondary">@color/purple_200</item>-->
+<!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
+<!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--        <item name="android:windowBackground">@color/white</item>-->
+<!--&lt;!&ndash;        <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>&ndash;&gt;-->
+<!--        <item name="colorOnBackground">@color/black</item>-->
     </style>
 
-    <style name="preferenceTextSizeStyle" parent="@android:style/TextAppearance">
-        <item name="android:textSize">12sp</item>
-    </style>
 
-<!--    <style name="Theme.PokeMon" parent="Base.Theme.PokeMon" />-->
+
+        <style name="Theme.PokeMon" parent="Base.Theme.PokeMon" />
 </resources>

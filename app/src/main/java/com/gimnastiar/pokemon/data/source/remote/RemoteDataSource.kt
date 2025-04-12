@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import com.gimnastiar.pokemon.data.source.remote.network.ApiResponse
 import com.gimnastiar.pokemon.data.source.remote.network.ApiService
 import com.gimnastiar.pokemon.data.source.remote.paging.PokemonPagingSource
+import com.gimnastiar.pokemon.data.source.remote.paging.PokemonSearchPagingSource
 import com.gimnastiar.pokemon.data.source.remote.response.PokemonDetail
 import com.gimnastiar.pokemon.data.source.remote.response.PokemonResult
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +29,18 @@ class RemoteDataSource @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { PokemonPagingSource(apiService) }
+        ).flow
+    }
+
+    fun getPokemonListSearch(query: String): Flow<PagingData<PokemonResult>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                PokemonSearchPagingSource(apiService, query)
+            }
         ).flow
     }
 

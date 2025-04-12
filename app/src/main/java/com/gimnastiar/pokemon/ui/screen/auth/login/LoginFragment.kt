@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -16,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,8 +39,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private var jobLogin: Job? = null
+
     private val viewModel: LoginViewModel by viewModels()
+
+    private var doubleBackPressed = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +51,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         observeValidation()
         onLogin()
         onRegistClick()
+        backAction()
     }
 
     private fun onRegistClick() {
@@ -59,6 +65,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 findNavController().navigate(R.id.action_loginFragment_to_registFragment)
+                Log.i("NAV HOME", "TO REGIST")
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -83,8 +90,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val password = etPassowrd.text.toString()
 
             viewModel.login(email, password)
+            observeLogin()
         }
-        observeLogin()
     }
 
     private fun observeLogin() {
@@ -111,14 +118,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
-
-    //    private fun observeMessage() {
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.messageEvent.collectLatest { message ->
-//
-//            }
-//        }
-//    }
 
     @SuppressLint("CheckResult")
     private fun observeValidation() {
@@ -177,6 +176,23 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             getString(R.string.invalid_password)
         }
         tfPassword.isErrorEnabled = if (isValid) false else true
+    }
+
+    private fun backAction() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (doubleBackPressed) {
+                    requireActivity().finish()
+                } else {
+                    doubleBackPressed = true
+                    Toast.makeText(requireContext(), "press again to exit", Toast.LENGTH_SHORT).show()
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        doubleBackPressed = false
+                    }, 2000)
+                }
+            }
+        })
     }
 
 }

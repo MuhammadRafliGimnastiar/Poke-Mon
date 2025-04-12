@@ -2,6 +2,7 @@ package com.gimnastiar.pokemon.domain.repository
 
 import androidx.paging.PagingData
 import com.gimnastiar.pokemon.data.Resource
+import com.gimnastiar.pokemon.data.source.local.pokemon.entity.PokemonEntity
 import com.gimnastiar.pokemon.data.source.remote.network.ApiService
 import com.gimnastiar.pokemon.data.source.remote.response.PokemonDetail
 import com.gimnastiar.pokemon.data.source.remote.response.PokemonResult
@@ -12,5 +13,9 @@ import kotlinx.coroutines.flow.Flow
 interface ICoreRepository {
     fun getPokemonList(): Flow<PagingData<PokemonList>>
 
+    fun getPokemonListSearch(query: String): Flow<PagingData<PokemonList>>
+
     fun getDetailPokemon(url: String): Flow<Resource<Pokemon>>
+
+    fun getAllPokemonFlow(): Flow<List<Pokemon>>
 }

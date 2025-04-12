@@ -10,7 +10,7 @@ data class PokemonEntity(
 
     val name: String,
     val imageUrl: String,
-    val abilities: List<String?>? = null,
+    val abilities: List<String?> = listOf(null),
     val weight: Int,
     val height: Int
 )

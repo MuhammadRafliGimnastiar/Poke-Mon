@@ -17,7 +17,6 @@ class SessionDatastore @Inject constructor(
     suspend fun saveSession(user: User, token: String) {
         user.apply {
             dataStore.edit {
-                it[ID] = id.toString()
                 it[FULL_NAME] = name
                 it[EMAIL] = email
                 it[TOKEN_KEY] = token
@@ -28,7 +27,7 @@ class SessionDatastore @Inject constructor(
     fun getSession(): Flow<Pair<String, User>> = dataStore.data.map {
         val token = it[TOKEN_KEY] ?: String.Empty
         val user = User(
-            id = it[ID]?.toInt() ?: Int.Zero,
+            id = null,
             name = it[FULL_NAME] ?: String.Empty,
             email = it[EMAIL] ?: String.Empty
         )
@@ -36,14 +35,12 @@ class SessionDatastore @Inject constructor(
     }
 
     suspend fun deleteSession(): Preferences = dataStore.edit {
-        it[ID] = String.Empty
         it[FULL_NAME] = String.Empty
         it[EMAIL] = String.Empty
         it[TOKEN_KEY] = String.Empty
     }
 
     companion object {
-        private val ID = stringPreferencesKey("id")
         private val FULL_NAME = stringPreferencesKey("full-name")
         private val EMAIL = stringPreferencesKey("email")
         private val TOKEN_KEY = stringPreferencesKey("token_key")

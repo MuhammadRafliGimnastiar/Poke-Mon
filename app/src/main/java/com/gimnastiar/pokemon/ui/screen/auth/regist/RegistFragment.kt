@@ -1,6 +1,7 @@
 package com.gimnastiar.pokemon.ui.screen.auth.regist
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -17,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.gimnastiar.pokemon.R
 import com.gimnastiar.pokemon.databinding.FragmentRegistBinding
 import com.gimnastiar.pokemon.domain.model.User
+import com.gimnastiar.pokemon.ui.screen.core.CoreActivity
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
@@ -36,6 +39,7 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentRegistBinding.bind(view)
 
+        Log.i("NAV HOME", "IN REGIST")
         observeValidation()
         onBackPress()
         onSignUp()
@@ -47,28 +51,39 @@ class RegistFragment : Fragment(R.layout.fragment_regist) {
             val fullName = etFullName.text.toString()
             val email = etEmail.text.toString()
             val password = etPassowrd.text.toString()
+            val user = User(
+                name = fullName,
+                email = email,
+                id = null
+            )
+
             viewModel.regist(
-                user = User(
-                    name = fullName,
-                    email = email,
-                    id = null
-                ),
+                user = user,
                 password = password
             )
+            Log.i("RETURN REGIST DATA", user.email)
+            observeSignUp(user)
         }
-        observeSignUp()
     }
 
-    private fun observeSignUp() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.registResponse.observe(viewLifecycleOwner) {
-                if ( it == (-1).toLong()) {
-                    Log.i("REGIST RESPONSE", "EMAIL TERDAFTAR")
-                } else {
-                    Log.i("REGIST RESPONSE", "SUCCESS")
-                }
+    private fun observeSignUp(user: User) {
+        viewModel.registResponse.observe(viewLifecycleOwner) {
+            if ( it == (-1).toLong()) {
+                showToast(getString(R.string.your_email_has_registered))
+            } else {
+                viewModel.saveSession(user)
+                Log.i("NAV HOME", "TO REGIST ${user.name}")
+
+                // navigation
+                val intent = Intent(requireContext(), CoreActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
-        }.also { jobSignUp = it }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
 //    private fun backPressedhandler() {

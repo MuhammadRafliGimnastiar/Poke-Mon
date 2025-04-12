@@ -21,7 +21,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPokemon"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_marginHorizontal="12dp"
@@ -34,8 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:visibility="gone" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
         <include layout="@layout/item_home_shimmer" />
 
@@ -50,8 +49,7 @@
         android:layout_marginBottom="24dp"
         android:visibility="gone"
         android:contentDescription="@string/scroll_to_top"
-        android:src="@drawable/ic_arrow_left"
-        app:backgroundTint="@color/blue_color" />
+        android:src="@drawable/ic_arrow_round_top" />
 
     <com.google.android.material.search.SearchView
         android:id="@+id/searchView"

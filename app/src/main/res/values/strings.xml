@@ -32,4 +32,11 @@
     <string name="retry">Coba lagi</string>
     <string name="scroll_to_top">Scroll to top</string>
     <string name="hero_abilities">Hero abilities :</string>
+    <string name="confirm_logout">Confirm Logout</string>
+    <string name="make_sure_logout">Are you sure you want to log out?</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout">Log Out</string>
+    <string name="your_email_has_registered">Your email is already registered</string>
+    <string name="no_data_found">No Data Found..</string>
+    <string name="please_open_some_data">Please open some data when you are online first</string>
 </resources>
